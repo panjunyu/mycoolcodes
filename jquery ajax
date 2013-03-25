@@ -1,0 +1,56 @@
+function jstophp(wordid,formname){
+//***注意: 参数不要跟变量同名，wordid不能写成id，否则不能再ajax的success赋值给id
+$.ajax({
+  type: "GET",
+	url: "wordtyping_sql.php",
+	dataType: "JSON",//**注意:加这段就不能alert内容,因为echo没有加上json_encode
+	//data: "name=John&location=Boston",
+	//data: "id="+id+"&formname="+formname,
+	data: {id:wordid,formname:formname},//{}这样写就是Json数据;
+	error:function(e){
+		alert("error occured");//有错误时候会弹出该信息;
+	},
+	success: function(msg){ //msg是随便一个参数名称
+		
+//iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+
+//url: "wordtyping_sql.php"文件需要写:
+
+//============方法一:用关联数组形式写入数组===========
+//msg.chinese中的chinese是关联数组的元素名
+//$wordarr = array('english'=>$english, 'id'=>$id,'chinese'=>$chinese); 中的关联数组名
+//ajax调用数据形式: msg.chinese;
+
+//============方法二: 用数值数组:==================
+// $pushword = array(); //***注意:必须声明在while循环外面
+//1. 用while循环+array_push()添加到数组里面;
+// while($row = $findwordquery->fetch_assoc()){
+	// $english = $row['english'];
+	// $chinese = $row['chinese'];
+	// array_push($pushword,$english,$chinese);
+// } 
+//2. 或者直接写入数组里面;
+//$wordarray = Array($english0,$chinese0,...);
+//ajax调用数据形式: msg[0,1...];
+
+
+//在连接数据库php文件中，必须写上echo json_encode($wordarr);才能使用json格式。
+//写上dataType: "JSON",才不会出错。
+//返回json数据类型:需要用数组方式+json_encode来; 用ch_json_encode() 解决中文显示
+//json_encode这个函数的功能是将数值转换成json数据存储格式。Json 只支持 utf-8 编码
+//iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+		englishword = msg.english; //保存英文单词
+		chineseword = msg.chinese;//保存中文单词
+//iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+//***注意: 之前一直id都不能传到外面，是因为变量名重复了;jstophp(id)参数id跟外面变量一样，系统就不能分辨是哪个了. 所以解决的方法就是把function jstophp(id-->wordid就可以了)
+//iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+		id = msg.id;//***当前显示单词的id号
+		//$("#welcome").html(id);
+		//alert("id2:"+id);
+		$("#popword").html(englishword);//输出$row['english']
+		$("#chinesepopword").html(chineseword);//输出$row['chinese']
+//********************************
+	}//-----end of success: function(msg)------
+}); //-----end of $.ajax(-------------	
+
+}//------end of function jstophp(id,formname)------	
