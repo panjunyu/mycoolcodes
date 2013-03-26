@@ -45,6 +45,6 @@ CREATE TABLE IF NOT EXISTS `think_role_user` (
 CREATE TABLE IF NOT EXISTS `think_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(50) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
